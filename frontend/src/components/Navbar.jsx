@@ -24,7 +24,7 @@ export default function Navbar() {
         setGreeting("Good evening");
       }
 
-      // Dynamic Date (e.g., "Monday, February 3")
+      // Dynamic Date 
       const options = {
         weekday: "long",
         year: "numeric",
@@ -33,7 +33,7 @@ export default function Navbar() {
       };
       setCurrentDate(date.toLocaleDateString("en-US", options));
 
-      // Dynamic Time (e.g., "12:30:45")
+      // Dynamic Time 
       const formattedTime = `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${
         seconds < 10 ? "0" : ""
       }${seconds}`;
