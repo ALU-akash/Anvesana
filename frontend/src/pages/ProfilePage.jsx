@@ -74,7 +74,7 @@ export default function ProfilePage() {
             </button>
           </div>
 
-          {/* Modal */}
+          {/* Modal  */}
           {isModalOpen && (
             <div className="fixed inset-0 bg-[#00000061] bg-opacity-50 flex justify-center items-center">
               <div class="relative bg-white rounded-lg shadow-sm w-full md:w-[30rem] max-w-[90%]">
