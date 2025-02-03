@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import profileIcon from "../assets/img/user/profile.png";
 import "boxicons";
@@ -90,10 +91,10 @@ export default function Navbar() {
             onClick={() => setDropdownOpen(false)} // Close on click outside
           >
             <ul className="py-1 text-sm text-gray-700">
-              <li className="flex gap-1 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              <Link to="/profile" className="flex gap-1 px-4 py-2 hover:bg-gray-100 cursor-pointer">
               <box-icon name='user' size="xs" color='#364153' ></box-icon>
                 Profile
-              </li>
+              </Link>
               <li className="flex gap-1 px-4 py-2 hover:bg-gray-100 text-red-500 cursor-pointer">
                 <box-icon name='log-out' size='xs' color='#fb2c36'></box-icon>
                 Logout
