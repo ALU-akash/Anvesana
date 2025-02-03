@@ -24,7 +24,7 @@ export default function Navbar() {
         setGreeting("Good evening");
       }
 
-      // Dynamic Date 
+      // Dynamic Date
       const options = {
         weekday: "long",
         year: "numeric",
@@ -33,12 +33,15 @@ export default function Navbar() {
       };
       setCurrentDate(date.toLocaleDateString("en-US", options));
 
-      // Dynamic Time 
+      // Dynamic Time
       const formattedTime = `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${
         seconds < 10 ? "0" : ""
       }${seconds}`;
       setTime(formattedTime);
     };
+
+    // Initial update to set default date and time before setInterval starts
+    updateTime();
 
     // Update time every second
     const intervalId = setInterval(updateTime, 1000);
@@ -55,9 +58,7 @@ export default function Navbar() {
         </span>
       </div>
       <div className="flex items-center text-gray-600 text-sm gap-1">
-        <box-icon name="calendar-alt" size="sm"></box-icon>
         <span className="font-semibold pl-1">{currentDate}</span>
-        <box-icon name='time' ></box-icon>
         <span className="ml-2">{time}</span> {/* Display the current time */}
       </div>
       <button className="flex items-center gap-1 cursor-pointer">
