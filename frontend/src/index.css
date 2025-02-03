@@ -2,3 +2,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Ensure html and body take up full height */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #f9fbfb;
+    /* Prevent scrolling */
+}
+
+
+/* Optional: Ensuring root div takes full height */
+
+#root {
+    height: 100%;
+}
+
+.header_profile {
+    background-image: url('./assets/img/background/header_profile.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
