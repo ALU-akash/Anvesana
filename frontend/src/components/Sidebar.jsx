@@ -4,7 +4,7 @@ import "boxicons";
 
 export default function Sidebar() {
   return (
-    <aside className="bg-white shadow-md border border-gray-100 p-3 rounded-lg">
+    <aside className="bg-white shadow-sm border border-gray-100 p-3 rounded-lg">
       <div className="flex justify-center mx-auto py-4 border-b border-gray-200">
         <img src={logo} className="w-32" alt="logo_full" draggable="false" />
       </div>

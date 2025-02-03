@@ -60,47 +60,107 @@ export default function ProfilePage() {
           </ol>
         </nav>
 
-        <div className="bg-white border border-gray-100 rounded-md shadow-sm">
-          <div className="header_profile h-34 rounded-t-md"></div>
-          <div className="p-8 flex justify-between gap-8">
-            <div className="flex">
-              <img
-                src={profileIcon}
-                className="h-40 w-40 border-4 border-white rounded-full shadow-md -mt-18"
-                alt="user_icon"
-              />
-              <div className="flex flex-col">
-                <h2 className="text-4xl font-semibold">Vansh Kumar</h2>
-                <h4 className="text-[#2BACDE] text-sm ml-2 font-medium">
-                  EMPLOYEE ID: D12417421
-                </h4>
-                <div className="p-2 flex gap-8 text-gray-500 text-sm">
-                  <div className="flex items-center gap-1">
-                    {" "}
-                    <span>vansh.kumar@berg.co.in</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {" "}
-                    <span>Dehradun</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {" "}
-                    <span>MPQC-FK </span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {" "}
-                    <span>9:00 AM to 6:00 PM </span>
-                  </div>
-                </div>
-              </div>
+        <div className="bg-white border border-gray-100 rounded-lg shadow-sm py-4 px-8 flex items-center gap-4">
+          <img
+            src={profileIcon}
+            className="h-24 w-24 rounded-full shadow-sm"
+            alt="user_icon"
+            draggable="false"
+          />
+
+          <div className="flex flex-col">
+            <h2 className="text-2xl font-semibold text-[#2BACDE]">
+              Vansh Kumar
+            </h2>
+            <span className="text-gray-500 text-sm ml-0.5">
+              vansh.kumar@berg.co.in
+            </span>
+            <span className="text-gray-500 text-sm ml-0.5">MPQC-FK</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 bg-white border border-gray-100 rounded-lg shadow-sm py-4 px-8 flex items-center gap-4">
+          <div className="py-2 border-b border-gray-100 w-full flex justify-between items-center">
+            <span className="text-gray-700 font-medium flex gap-1">
+              <box-icon
+                name="user"
+                type="solid"
+                color="#2BACDE"
+                size="xs"
+              ></box-icon>
+              Personal Information
+            </span>
+            <button className="flex gap-1 bg-[#2BACDE] px-2 py-1 rounded-sm text-sm text-white hover:bg-[#3B71B6] transition-all duration-300 cursor-pointer">
+              Edit
+              <box-icon
+                name="edit-alt"
+                type="solid"
+                color="#ffff"
+                size="xs"
+              ></box-icon>
+            </button>
+          </div>
+
+          <div className="w-full grid grid-cols-3 gap-6 items-center justify-center p-4">
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-500 text-sm">First Name</span>
+              <span className="text-gray-700 font-medium">Vansh</span>
             </div>
-            <div>
-              <button
-                type="button"
-                className="px-3 py-1 rounded-md border border-gray-50 shadow-md  bg-gray-100"
-              >
-                Edit
-              </button>
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-500 text-sm">Last Name</span>
+              <span className="text-gray-700 font-medium">Kumar</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-500 text-sm">Date Of Birth</span>
+              <span className="text-gray-700 font-medium">26-09-2002</span>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-500 text-sm">Email Address</span>
+              <span className="text-gray-700 font-medium">
+                vansh.kumar@berg.co.in
+              </span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-500 text-sm">Phone Number</span>
+              <span className="text-gray-700 font-medium">7536001034</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-500 text-sm">City</span>
+              <span className="text-gray-700 font-medium">Dehradun</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 bg-white border border-gray-100 rounded-lg shadow-sm py-4 px-8 flex items-center gap-4">
+          <div className="py-2 border-b border-gray-100 w-full flex justify-between items-center">
+            <span className="text-gray-700 font-medium flex gap-1">
+              <box-icon name="buildings" type="solid" color="#2BACDE" size="xs"></box-icon>
+              Work-Related Information
+            </span>
+            {/* <button className="flex gap-1 bg-[#2BACDE] px-2 py-1 rounded-sm text-sm text-white hover:bg-[#3B71B6] transition-all duration-300 cursor-pointer">
+              Edit
+              <box-icon
+                name="edit-alt"
+                type="solid"
+                color="#ffff"
+                size="xs"
+              ></box-icon>
+            </button> */}
+          </div>
+
+          <div className="w-full grid grid-cols-3 gap-6 items-center justify-center p-4">
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-500 text-sm">Employee ID</span>
+              <span className="text-gray-700 font-medium">D132414</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-500 text-sm">Process Name</span>
+              <span className="text-gray-700 font-medium">MPQC-FK</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-500 text-sm">Shift Timing</span>
+              <span className="text-gray-700 font-medium">9 AM to 6 PM</span>
             </div>
           </div>
         </div>
