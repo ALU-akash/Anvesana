@@ -11,6 +11,8 @@ const firebaseConfig = {
   storageBucket: "anvesana-cc8e6.firebasestorage.app",
   messagingSenderId: "643356980553",
   appId: "1:643356980553:web:36eaadfddfdfc5e91e5698",
+
+  // For firebase analytics
   measurementId: "G-PZ2HB6R9X0",
 };
 
