@@ -7,8 +7,6 @@ import FormInput from "../components/FormInput";
 import { FaUser, FaEdit, FaBuilding } from "react-icons/fa"; // Ensure react-icons is installed
 
 export default function ProfilePage() {
-
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
@@ -32,7 +30,6 @@ export default function ProfilePage() {
       setCity("");
     }
   };
-
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -171,43 +168,47 @@ export default function ProfilePage() {
                         onChange={(e) => setPhoneNumber(e.target.value)}
                       />
                     </div>
-                    <FormInput
-                      label="Email address"
-                      type="email"
-                      name="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <FormInput
-                      label="Password"
-                      type="password"
-                      name="password"
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <div className="grid grid-cols-2 gap-4 items-center">
-                      <FormInput
-                        label="Employee ID"
-                        type="text"
-                        name="employeeId"
-                        placeholder="Enter your employee ID"
-                        value={employeeId}
-                        onChange={handleEmployeeIdChange} //function to handle employee id changes to set city
+                    <div className="flex flex-col gap-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Email address
+                      </label>
+                      <input
+                        disabled
+                        className="p-2 border border-gray-300 rounded-md focus:border-[#2BACDE] focus:ring-0"
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 items-center">
+                      <div className="flex flex-col gap-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Employee ID
+                        </label>
+                        <input
+                          disabled
+                          className="p-2 border border-gray-300 rounded-md focus:border-[#2BACDE] focus:ring-0"
+                          type="text"
+                          name="employeeId"
+                          id="employeeId"
+                          placeholder="Enter your employee ID"
+                          value={employeeId}
+                        />
+                      </div>
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-gray-700">
                           City
                         </label>
                         <select
+                          disabled
                           className="block w-full p-2 border border-gray-300 rounded-md"
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
                         >
-                          <option value="" disabled>
-                            Select City
-                          </option>
                           <option value="Jammu">Jammu</option>
                           <option value="Dehradun">Dehradun</option>
                         </select>
