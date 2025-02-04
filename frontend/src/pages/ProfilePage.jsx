@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import profileIcon from "../assets/img/user/profile.png";
 import FormInput from "../components/FormInput";
-import { FaUser, FaEdit, FaBuilding, FaCamera, FaCloudUploadAlt, FaArrowCircleRight, FaAngleRight } from "react-icons/fa"; // Ensure react-icons is installed
+import {
+  FaUser,
+  FaEdit,
+  FaBuilding,
+  FaCamera,
+  FaCloudUploadAlt,
+  FaArrowCircleRight,
+  FaAngleRight,
+} from "react-icons/fa"; // Ensure react-icons is installed
 
 export default function ProfilePage() {
   const [firstName, setFirstName] = useState("");
@@ -16,7 +24,7 @@ export default function ProfilePage() {
   const [city, setCity] = useState("");
   const [process, setProcess] = useState("");
   const [shift, setShift] = useState("");
-
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isImageModalOpen, setIsImgModalOpen] = useState(false);
   const [fileName, setFileName] = useState("");
@@ -24,7 +32,9 @@ export default function ProfilePage() {
   const handleEditClick = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
   const handleImageEditClick = () => setIsImgModalOpen(true);
-  
+
+  const fileInputRef = useRef(null);
+
   const handleImageCloseModal = () => {
     setIsImgModalOpen(false);
     setFileName("");
@@ -59,7 +69,7 @@ export default function ProfilePage() {
                 Home
               </Link>
             </li>
-                <FaAngleRight className="text-gray-500 " />
+            <FaAngleRight className="text-gray-500 " />
             <li>
               <div className="flex items-center">
                 <span className="text-sm font-medium text-gray-500">
@@ -153,7 +163,10 @@ export default function ProfilePage() {
                         htmlFor="file-upload"
                         className="mt-2 flex flex-col justify-center items-center text-center mx-auto rounded-lg border border-dashed border-gray-900/25 px-6 py-10 cursor-pointer hover:bg-gray-100 transition-all duration-300"
                       >
-                        <FaCloudUploadAlt size={42} className="text-[#2BACDE]" />
+                        <FaCloudUploadAlt
+                          size={42}
+                          className="text-[#2BACDE]"
+                        />
                         <div className="mt-4 flex text-sm/6 text-gray-600">
                           <span className="relative cursor-pointer font-semibold text-gray-600 ">
                             Upload a photo
@@ -163,10 +176,10 @@ export default function ProfilePage() {
                           PNG, JPG, JPEG up to 1MB
                         </p>
                         {fileName && (
-                        <p className="mt-2 text-sm text-[#2BACDE]">
-                          {fileName}
-                        </p>
-                      )}
+                          <p className="mt-2 text-sm text-[#2BACDE]">
+                            {fileName}
+                          </p>
+                        )}
                         <input
                           id="file-upload"
                           name="file-upload"
