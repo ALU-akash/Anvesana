@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import profileIcon from "../assets/img/user/profile.png";
 import "boxicons";
+import { FaCalendar, FaClock } from "react-icons/fa";
 
 export default function Navbar() {
   const [currentDate, setCurrentDate] = useState("");
@@ -63,8 +64,10 @@ export default function Navbar() {
         </span>
       </div>
       <div className="flex items-center text-gray-600 text-sm gap-1">
-        <span className="font-semibold pl-1">{currentDate}</span>
-        <span className="ml-2">{time}</span> {/* Display the current time */}
+        <FaCalendar className="text-[#2BACDE]" />
+        <span className="font-semibold">{currentDate}</span>
+        <FaClock className="ml-2 text-[#2BACDE]" />
+        <span>{time}</span> {/* Display the current time */}
       </div>
       <div className="relative">
         {/* Button to toggle dropdown */}
@@ -91,12 +94,15 @@ export default function Navbar() {
             onClick={() => setDropdownOpen(false)} // Close on click outside
           >
             <ul className="py-1 text-sm text-gray-700">
-              <Link to="/profile" className="flex gap-1 px-4 py-2 hover:bg-gray-100 cursor-pointer">
-              <box-icon name='user' size="xs" color='#364153' ></box-icon>
+              <Link
+                to="/profile"
+                className="flex gap-1 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                <box-icon name="user" size="xs" color="#364153"></box-icon>
                 Profile
               </Link>
               <li className="flex gap-1 px-4 py-2 hover:bg-gray-100 text-red-500 cursor-pointer">
-                <box-icon name='log-out' size='xs' color='#fb2c36'></box-icon>
+                <box-icon name="log-out" size="xs" color="#fb2c36"></box-icon>
                 Logout
               </li>
             </ul>
