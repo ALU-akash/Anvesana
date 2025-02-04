@@ -3,8 +3,9 @@ import AuthLayout from "../components/AuthLayout";
 import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
 import { useState } from "react";
-import { auth } from "../firebase/firebaseConfig";
+import { auth, db } from "../firebase/firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -57,8 +58,20 @@ export default function SignUpPage() {
         password
       );
       const uid = userCredential.user.uid;
+
+      // Add a new document in collection "Users"
+      await setDoc(doc(db, "Users", uid), {
+        firstName: firstName,
+        lastName: lastName,
+        dob: dob,
+        email: email,
+        employeeId: employeeId,
+        city: city,
+        process: process,
+        shift: shift,
+      });
       alert("User has been created");
-      
+
       navigate("/");
     } catch (e) {
       alert(e);
