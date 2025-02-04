@@ -3,75 +3,78 @@ import AuthLayout from "../components/AuthLayout";
 import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
 import { useState } from "react";
-import { auth, db } from "../firebase/firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import handleSignup from "../firebase/signupHandler";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [dob, setDob] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
-  const [city, setCity] = useState("");
-  const [process, setProcess] = useState("");
-  const [shift, setShift] = useState("");
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    dob: "",
+    email: "",
+    employeeId: "",
+    city: "",
+    process: "",
+    shift: "",
+    password: "",
+  });
 
-  const handleEmployeeIdChange = (e) => {
-    const empId = e.target.value;
-    setEmployeeId(empId);
+  // const handleEmployeeIdChange = (e) => {
+  //   const empId = e.target.value;
+  //   setEmployeeId(empId);
 
-    if (empId.startsWith("D")) {
-      setCity("Dehradun");
-    } else if (empId.startsWith("J")) {
-      setCity("Jammu");
-    } else {
-      setCity("");
-    }
+  //   if (empId.startsWith("D")) {
+  //     setCity("Dehradun");
+  //   } else if (empId.startsWith("J")) {
+  //     setCity("Jammu");
+  //   } else {
+  //     setCity("");
+  //   }
+  // };
+
+  const handleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
+  // const handleSignup = async (e) => {
+  //   e.preventDefault();
 
-    if (!email.includes("berg.co.in")){
-      alert("Email id should end with berg.co.in")
-      return;
-    }
+  //   if (!email.includes("berg.co.in")){
+  //     alert("Email id should end with berg.co.in")
+  //     return;
+  //   }
 
-    if ( !firstName || !lastName || !dob || !email || !password || !employeeId || !city || !process || !shift ) {
-      alert("Please fill all the details");
-      return;
-    }
+  //   if ( !firstName || !lastName || !dob || !email || !password || !employeeId || !city || !process || !shift ) {
+  //     alert("Please fill all the details");
+  //     return;
+  //   }
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const uid = userCredential.user.uid;
+  //   try {
+  //     const userCredential = await createUserWithEmailAndPassword(
+  //       auth,
+  //       email,
+  //       password
+  //     );
+  //     const uid = userCredential.user.uid;
 
-      // Add a new document in collection "Users"
-      await setDoc(doc(db, "Users", uid), {
-        firstName: firstName,
-        lastName: lastName,
-        dob: dob,
-        email: email,
-        employeeId: employeeId,
-        city: city,
-        process: process,
-        shift: shift,
-      });
-      alert("User has been created");
+  //     // Add a new document in collection "Users"
+  //     await setDoc(doc(db, "Users", uid), {
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       dob: dob,
+  //       email: email,
+  //       employeeId: employeeId,
+  //       city: city,
+  //       process: process,
+  //       shift: shift,
+  //     });
+  //     alert("User has been created");
 
-      navigate("/");
-    } catch (e) {
-      alert(e);
-    }
-  };
+  //     navigate("/");
+  //   } catch (e) {
+  //     alert(e);
+  //   }
+  // };
 
   return (
     <AuthLayout>
@@ -86,7 +89,7 @@ export default function SignUpPage() {
       </div>
 
       {/* SignUp Form */}
-      <form onSubmit={handleSignup}>
+      <form onSubmit={(e) => handleSignup(e, userData, navigate)}>
         <div className="py-6 flex flex-col gap-4">
           <div className="grid grid-cols-2 gap-4">
             <FormInput
@@ -94,32 +97,32 @@ export default function SignUpPage() {
               type="text"
               name="firstName"
               placeholder="Enter your first name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={userData.firstName}
+              onChange={handleChange}
             />
             <FormInput
               label="Last Name"
               type="text"
               name="lastName"
               placeholder="Enter your last name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={userData.lastName}
+              onChange={handleChange}
             />
             <FormInput
               label="Date of Birth"
               type="date"
               name="dob"
               placeholder="Enter your date of birth"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
+              value={userData.dob}
+              onChange={handleChange}
             />
             <FormInput
               label="Phone Number"
               type="number"
               name="phoneNumber"
               placeholder="Enter your phone number"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              value={userData.phoneNumber}
+              onChange={handleChange}
             />
           </div>
           <FormInput
@@ -127,16 +130,16 @@ export default function SignUpPage() {
             type="email"
             name="email"
             placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={userData.email}
+            onChange={handleChange}
           />
           <FormInput
             label="Password"
             type="password"
             name="password"
             placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={userData.password}
+            onChange={handleChange}
           />
           <div className="grid grid-cols-2 gap-4 items-center">
             <FormInput
@@ -144,17 +147,18 @@ export default function SignUpPage() {
               type="text"
               name="employeeId"
               placeholder="Enter your employee ID"
-              value={employeeId}
-              onChange={handleEmployeeIdChange} //function to handle employee id changes to set city
+              value={userData.employeeId}
+              onChange={handleChange} //function to handle employee id changes to set city
             />
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">
                 City
               </label>
               <select
+                name="city"
                 className="block w-full p-2 border border-gray-300 rounded-md"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
+                value={userData.city}
+                onChange={handleChange}
               >
                 <option value="" disabled>
                   Select City
@@ -168,9 +172,10 @@ export default function SignUpPage() {
                 Process
               </label>
               <select
+                name="process"
                 className="block w-full p-2 border border-gray-300 rounded-md"
-                value={process}
-                onChange={(e) => setProcess(e.target.value)}
+                value={userData.process}
+                onChange={handleChange}
               >
                 <option value="" disabled>
                   Select Process
@@ -196,9 +201,10 @@ export default function SignUpPage() {
                 Shift Timing
               </label>
               <select
+                name="shift"
                 className="block w-full p-2 border border-gray-300 rounded-md"
-                value={shift}
-                onChange={(e) => setShift(e.target.value)}
+                value={userData.shift}
+                onChange={handleChange}
               >
                 <option value="" disabled>
                   Select Shift
@@ -222,7 +228,10 @@ export default function SignUpPage() {
               Already have an account?
             </Link>
           </div>
-          <button className="p-2 hover:bg-black bg-[#2BACDE] transition-all duration-150 rounded-md text-white font-semibold cursor-pointer">
+          <button
+            className="p-2 hover:bg-black bg-[#2BACDE] transition-all duration-150 rounded-md text-white font-semibold cursor-pointer"
+            type="submit"
+          >
             Sign Up
           </button>
         </div>

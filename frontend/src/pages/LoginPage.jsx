@@ -3,35 +3,18 @@ import AuthLayout from "../components/AuthLayout";
 import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
 import { useState } from "react";
-import { auth } from "../firebase/firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import handleLogin from "../firebase/loginHandler";
 
 export default function LoginPage() {
+  
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    if (!email || !password) {
-      alert("Please enter both email and password");
-      return;
-    }
-
-    try {
-      console.log("Logging in with:", email, password);
-      const userCredentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredentials.user;
-      alert("Login Successfully: " + user.email);
-      navigate("/home");
-    } catch (error) {
-      alert(error.message);
-    }
+  const handleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -45,27 +28,26 @@ export default function LoginPage() {
           Join us now!{" "}
         </Link>{" "}
       </h3>{" "}
-      
       {/* Login Form */}
-      <form onSubmit={handleLogin}>
+      <form onSubmit={(e) => handleLogin(e, userData, navigate)}>
         <div className="py-6 flex flex-col gap-4">
           <FormInput
             label="Email address"
             type="email"
             name="email"
             placeholder="Enter your email"
-            value={email}
+            value={userData.email}
             // Set email id for login
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
           />
           <FormInput
             label="Password"
             type="password"
             name="password"
             placeholder="Enter your password"
-            value={password}
+            value={userData.password}
             // Set password for login
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleChange}
           />
           <div className="flex justify-end text-sm">
             <Link
@@ -75,7 +57,10 @@ export default function LoginPage() {
               Forgot password?
             </Link>
           </div>
-          <button className="p-2 hover:bg-black bg-[#2BACDE] transition-all duration-150 rounded-md text-white font-semibold cursor-pointer">
+          <button
+            className="p-2 hover:bg-black bg-[#2BACDE] transition-all duration-150 rounded-md text-white font-semibold cursor-pointer"
+            type="submit"
+          >
             Login
           </button>
         </div>
