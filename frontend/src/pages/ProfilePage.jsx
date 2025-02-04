@@ -3,9 +3,37 @@ import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import profileIcon from "../assets/img/user/profile.png";
+import FormInput from "../components/FormInput";
 import { FaUser, FaEdit, FaBuilding } from "react-icons/fa"; // Ensure react-icons is installed
 
 export default function ProfilePage() {
+
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [dob, setDob] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
+  const [city, setCity] = useState("");
+  const [process, setProcess] = useState("");
+  const [shift, setShift] = useState("");
+
+  const handleEmployeeIdChange = (e) => {
+    const empId = e.target.value;
+    setEmployeeId(empId);
+
+    if (empId.startsWith("D")) {
+      setCity("Dehradun");
+    } else if (empId.startsWith("J")) {
+      setCity("Jammu");
+    } else {
+      setCity("");
+    }
+  };
+
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleEditClick = () => setIsModalOpen(true);
@@ -108,94 +136,137 @@ export default function ProfilePage() {
                 </div>
 
                 <div class="p-4 md:p-5">
-                  <form class="space-y-4" action="#">
+                  <div className="py-6 flex flex-col gap-4">
                     <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          for="first_name"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                          First Name
-                        </label>
-                        <input
-                          type="text"
-                          name="first_name"
-                          id="first_name"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          for="last_name"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                          Last Name
-                        </label>
-                        <input
-                          type="text"
-                          name="last_name"
-                          id="last_name"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label
-                        for="password"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Your password
-                      </label>
-                      <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="••••••••"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        required
+                      <FormInput
+                        label="First Name"
+                        type="text"
+                        name="firstName"
+                        placeholder="Enter your first name"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
+                      <FormInput
+                        label="Last Name"
+                        type="text"
+                        name="lastName"
+                        placeholder="Enter your last name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                      <FormInput
+                        label="Date of Birth"
+                        type="date"
+                        name="dob"
+                        placeholder="Enter your date of birth"
+                        value={dob}
+                        onChange={(e) => setDob(e.target.value)}
+                      />
+                      <FormInput
+                        label="Phone Number"
+                        type="number"
+                        name="phoneNumber"
+                        placeholder="Enter your phone number"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
                       />
                     </div>
-                    <div class="flex justify-between">
-                      <div class="flex items-start">
-                        <div class="flex items-center h-5">
-                          <input
-                            id="remember"
-                            type="checkbox"
-                            value=""
-                            class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                            required
-                          />
-                        </div>
-                        <label
-                          for="remember"
-                          class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >
-                          Remember me
+                    <FormInput
+                      label="Email address"
+                      type="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <FormInput
+                      label="Password"
+                      type="password"
+                      name="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <div className="grid grid-cols-2 gap-4 items-center">
+                      <FormInput
+                        label="Employee ID"
+                        type="text"
+                        name="employeeId"
+                        placeholder="Enter your employee ID"
+                        value={employeeId}
+                        onChange={handleEmployeeIdChange} //function to handle employee id changes to set city
+                      />
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          City
                         </label>
+                        <select
+                          className="block w-full p-2 border border-gray-300 rounded-md"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select City
+                          </option>
+                          <option value="Jammu">Jammu</option>
+                          <option value="Dehradun">Dehradun</option>
+                        </select>
                       </div>
-                      <a
-                        href="#"
-                        class="text-sm text-blue-700 hover:underline dark:text-blue-500"
-                      >
-                        Lost Password?
-                      </a>
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Process
+                        </label>
+                        <select
+                          className="block w-full p-2 border border-gray-300 rounded-md"
+                          value={process}
+                          onChange={(e) => setProcess(e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Process
+                          </option>
+                          <option value="MPQC:FK">MPQC:FK</option>
+                          <option value="MPQC:Shopsy">MPQC:Shopsy</option>
+                          <option value="Allen">Allen</option>
+                          <option value="SQA-FK">SQA-FK</option>
+                          <option value="UGC">UGC</option>
+                          <option value="RQA">RQA</option>
+                          <option value="VSQA">VSQA</option>
+                          <option value="Image QC">Image QC</option>
+                          <option value="Video QC">Video QC</option>
+                          <option value="Cleartrip">Cleartrip</option>
+                          <option value="Counterfeit">Counterfeit</option>
+                          <option value="HITL">HITL</option>
+                          <option value="RSQA">RSQA</option>
+                          <option value="MIS">MIS</option>
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Shift Timing
+                        </label>
+                        <select
+                          className="block w-full p-2 border border-gray-300 rounded-md"
+                          value={shift}
+                          onChange={(e) => setShift(e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Shift
+                          </option>
+                          <option value="6AM - 3PM">6AM - 3PM</option>
+                          <option value="7AM - 4PM">7AM - 4PM</option>
+                          <option value="9AM - 6PM (General Shift)">
+                            9AM - 6PM (General Shift)
+                          </option>
+                          <option value="12PM - 9PM">12PM - 9PM</option>
+                          <option value="3PM - 12PM">3PM - 12PM</option>
+                          <option value="9PM - 6AM">9PM - 6AM</option>
+                        </select>
+                      </div>
                     </div>
-                    <button
-                      type="submit"
-                      class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                      Login to your account
+                    <button className="p-2 hover:bg-black bg-[#2BACDE] transition-all duration-150 rounded-md text-white font-semibold cursor-pointer">
+                      Save
                     </button>
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                      Not registered?{" "}
-                      <a
-                        href="#"
-                        class="text-blue-700 hover:underline dark:text-blue-500"
-                      >
-                        Create account
-                      </a>
-                    </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
