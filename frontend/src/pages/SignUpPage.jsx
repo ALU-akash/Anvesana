@@ -4,6 +4,7 @@ import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
 import { useState } from "react";
 
+//64% quality
 export default function SignUpPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

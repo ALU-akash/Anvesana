@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
@@ -6,7 +6,10 @@ import { useState } from "react";
 import { auth } from "../firebase/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
+
 export default function LoginPage() {
+
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,6 +30,7 @@ export default function LoginPage() {
       );
       const user = userCredentials.user;
       alert("Login Successfully: " + user.email);
+      navigate("/home");
     } catch (error) {
       alert(error.message);
     }
