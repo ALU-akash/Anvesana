@@ -1,10 +1,10 @@
-import { useState } from "react"; // Added useState import
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import profileIcon from "../assets/img/user/profile.png";
 import FormInput from "../components/FormInput";
-import { FaUser, FaEdit, FaBuilding } from "react-icons/fa"; // Ensure react-icons is installed
+import { FaUser, FaEdit, FaBuilding, FaCamera, FaCloudUploadAlt } from "react-icons/fa"; // Ensure react-icons is installed
 
 export default function ProfilePage() {
   const [firstName, setFirstName] = useState("");
@@ -12,29 +12,31 @@ export default function ProfilePage() {
   const [dob, setDob] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [city, setCity] = useState("");
   const [process, setProcess] = useState("");
   const [shift, setShift] = useState("");
 
-  const handleEmployeeIdChange = (e) => {
-    const empId = e.target.value;
-    setEmployeeId(empId);
-
-    if (empId.startsWith("D")) {
-      setCity("Dehradun");
-    } else if (empId.startsWith("J")) {
-      setCity("Jammu");
-    } else {
-      setCity("");
-    }
-  };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isImageModalOpen, setIsImgModalOpen] = useState(false);
+  const [fileName, setFileName] = useState("");
 
   const handleEditClick = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+  const handleImageEditClick = () => setIsImgModalOpen(true);
+  const handleImageCloseModal = () => {
+    setIsImgModalOpen(false);
+    setFileName("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFileName(file.name);
+    }
+  };
 
   return (
     <div className="h-screen grid grid-cols-5 bg-gray-50 p-2">
@@ -68,12 +70,22 @@ export default function ProfilePage() {
 
         {/* Profile Section */}
         <div className="bg-white border border-gray-100 rounded-lg shadow-sm py-4 px-8 flex items-center gap-4">
-          <img
-            src={profileIcon}
-            className="h-24 w-24 rounded-full shadow-sm"
-            alt="User Icon"
-            draggable="false"
-          />
+          <div className="flex flex-col items-center">
+            <img
+              src={profileIcon}
+              className="h-24 w-24 rounded-full shadow-sm"
+              alt="User Icon"
+              draggable="false"
+            />
+
+            <button
+              onClick={handleImageEditClick}
+              className="-mt-3
+              cursor-pointer flex items-center gap-1 bg-[#2BACDE] px-2 py-1 rounded-sm text-sm text-white hover:bg-[#3B71B6] transition-all duration-300"
+            >
+              <FaCamera className="text-white" />
+            </button>
+          </div>
           <div className="flex flex-col">
             <h2 className="text-2xl font-semibold text-[#2BACDE]">
               Vansh Kumar
@@ -99,22 +111,22 @@ export default function ProfilePage() {
             </button>
           </div>
 
-          {/* Modal  */}
-          {isModalOpen && (
+          {/* Image Modal */}
+          {isImageModalOpen && (
             <div className="fixed inset-0 bg-[#00000061] bg-opacity-50 flex justify-center items-center">
-              <div class="relative bg-white rounded-lg shadow-sm w-full md:w-[30rem] max-w-[90%]">
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                  <h3 class="font-medium text-gray-800 flex items-center gap-1">
-                    <FaEdit className="" /> Edit Personal Information
+              <div className="relative bg-white rounded-lg shadow-sm w-full md:w-[30rem] max-w-[90%]">
+                <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                  <h3 className="font-medium text-gray-800 flex items-center gap-1">
+                    <FaEdit className="" /> Edit Image
                   </h3>
                   <button
-                    onClick={handleCloseModal}
+                    onClick={handleImageCloseModal}
                     type="button"
-                    class=" cursor-pointer end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    className=" cursor-pointer end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                     data-modal-hide="authentication-modal"
                   >
                     <svg
-                      class="w-3 h-3"
+                      className="w-3 h-3"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -122,17 +134,89 @@ export default function ProfilePage() {
                     >
                       <path
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                       />
                     </svg>
-                    <span class="sr-only">Close modal</span>
+                    <span className="sr-only">Close modal</span>
                   </button>
                 </div>
 
-                <div class="p-4 md:p-5">
+                <div className="p-4 md:p-5">
+                  <div className="py-6 flex flex-col gap-4">
+                    <div className="col-span-full">
+                      <label
+                        htmlFor="file-upload"
+                        className="mt-2 flex flex-col justify-center items-center text-center mx-auto rounded-lg border border-dashed border-gray-900/25 px-6 py-10 cursor-pointer hover:bg-gray-100 transition-all duration-300"
+                      >
+                        <FaCloudUploadAlt size={42} className="text-[#2BACDE]" />
+                        <div className="mt-4 flex text-sm/6 text-gray-600">
+                          <span className="relative cursor-pointer font-semibold text-gray-600 ">
+                            Upload a photo
+                          </span>
+                        </div>
+                        <p className="text-xs/5 text-gray-600">
+                          PNG, JPG, JPEG up to 1MB
+                        </p>
+                        {fileName && (
+                        <p className="mt-2 text-sm text-[#2BACDE]">
+                          {fileName}
+                        </p>
+                      )}
+                        <input
+                          id="file-upload"
+                          name="file-upload"
+                          type="file"
+                          className="sr-only"
+                          onChange={handleFileChange}
+                        />
+                      </label>
+                    </div>
+                    <button className="p-2 hover:bg-black bg-[#2BACDE] transition-all duration-150 rounded-md text-white font-semibold cursor-pointer">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/*Personal Information Modal  */}
+          {isModalOpen && (
+            <div className="fixed inset-0 bg-[#00000061] bg-opacity-50 flex justify-center items-center">
+              <div className="relative bg-white rounded-lg shadow-sm w-full md:w-[30rem] max-w-[90%]">
+                <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                  <h3 className="font-medium text-gray-800 flex items-center gap-1">
+                    <FaEdit className="" /> Edit Personal Information
+                  </h3>
+                  <button
+                    onClick={handleCloseModal}
+                    type="button"
+                    className=" cursor-pointer end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="authentication-modal"
+                  >
+                    <svg
+                      className="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                      />
+                    </svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
+                </div>
+
+                <div className="p-4 md:p-5">
                   <div className="py-6 flex flex-col gap-4">
                     <div className="grid grid-cols-2 gap-4">
                       <FormInput
