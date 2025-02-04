@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
 import { useState } from "react";
+import { auth } from "../firebase/firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function SignUpPage() {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
@@ -29,7 +32,7 @@ export default function SignUpPage() {
     }
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     if (
@@ -47,7 +50,19 @@ export default function SignUpPage() {
       return;
     }
 
-    console.log("Hiii");
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const uid = userCredential.user.uid;
+      alert("User has been created");
+      
+      navigate("/");
+    } catch (e) {
+      alert(e);
+    }
   };
 
   return (
