@@ -2,8 +2,13 @@ import { Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
+import { useState } from "react";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  
   return (
     <AuthLayout>
       <img src={logo} className="w-32 py-4" alt="logo_full" draggable="false" />
@@ -11,10 +16,31 @@ export default function LoginPage() {
 
       {/* Login Form */}
       <div className="py-6 flex flex-col gap-4">
-        <FormInput label="Email address" type="email" name="email" placeholder="Enter your email" />
-        <FormInput label="Password" type="password" name="password" placeholder="Enter your password" />
+        <FormInput
+          label="Email address"
+          type="email"
+          name="email"
+          placeholder="Enter your email"
+          value = {email}
+
+          // Set email id for login
+          onChange = {(e) => setEmail(e.target.value)}
+        />
+        <FormInput
+          label="Password"
+          type="password"
+          name="password"
+          placeholder="Enter your password"
+          value = {password}
+
+          // Set password for login
+          onChange = {(e) => setPassword(e.target.value)}
+        />
         <div className="flex justify-end text-sm">
-          <Link to="/reset-password" className="text-[#2BACDE] hover:text-black transition-all duration-300">
+          <Link
+            to="/reset-password"
+            className="text-[#2BACDE] hover:text-black transition-all duration-300"
+          >
             Forgot password?
           </Link>
         </div>
