@@ -36,17 +36,12 @@ export default function SignUpPage() {
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    if (
-      !firstName ||
-      !lastName ||
-      !dob ||
-      !email ||
-      !password ||
-      !employeeId ||
-      !city ||
-      !process ||
-      !shift
-    ) {
+    if (!email.includes("berg.co.in")){
+      alert("Email id should end with berg.co.in")
+      return;
+    }
+
+    if ( !firstName || !lastName || !dob || !email || !password || !employeeId || !city || !process || !shift ) {
       alert("Please fill all the details");
       return;
     }
