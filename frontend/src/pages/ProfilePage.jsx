@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import profileIcon from "../assets/img/user/profile.png";
 import FormInput from "../components/FormInput";
-import { FaUser, FaEdit, FaBuilding, FaCamera, FaCloudUploadAlt } from "react-icons/fa"; // Ensure react-icons is installed
+import { FaUser, FaEdit, FaBuilding, FaCamera, FaCloudUploadAlt, FaArrowCircleRight, FaAngleRight } from "react-icons/fa"; // Ensure react-icons is installed
 
 export default function ProfilePage() {
   const [firstName, setFirstName] = useState("");
@@ -24,6 +24,7 @@ export default function ProfilePage() {
   const handleEditClick = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
   const handleImageEditClick = () => setIsImgModalOpen(true);
+  
   const handleImageCloseModal = () => {
     setIsImgModalOpen(false);
     setFileName("");
@@ -58,9 +59,10 @@ export default function ProfilePage() {
                 Home
               </Link>
             </li>
+                <FaAngleRight className="text-gray-500 " />
             <li>
               <div className="flex items-center">
-                <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2">
+                <span className="text-sm font-medium text-gray-500">
                   My Profile
                 </span>
               </div>
