@@ -4,7 +4,6 @@ import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
 import { useState } from "react";
 
-//64% quality
 export default function SignUpPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -30,6 +29,10 @@ export default function SignUpPage() {
     }
   };
 
+  const handleSignup = (e) => {
+
+  }
+
   return (
     <AuthLayout>
       <div className="flex items-center justify-between">
@@ -43,6 +46,7 @@ export default function SignUpPage() {
       </div>
 
       {/* SignUp Form */}
+      <form action="">
       <div className="py-6 flex flex-col gap-4">
         <div className="grid grid-cols-2 gap-4">
           <FormInput
@@ -112,7 +116,9 @@ export default function SignUpPage() {
               value={city}
               onChange={(e) => setCity(e.target.value)}
             >
-              <option value="" disabled>Select City</option>
+              <option value="" disabled>
+                Select City
+              </option>
               <option value="Jammu">Jammu</option>
               <option value="Dehradun">Dehradun</option>
             </select>
@@ -126,7 +132,9 @@ export default function SignUpPage() {
               value={process}
               onChange={(e) => setProcess(e.target.value)}
             >
-              <option value="" disabled>Select Process</option>
+              <option value="" disabled>
+                Select Process
+              </option>
               <option value="MPQC:FK">MPQC:FK</option>
               <option value="MPQC:Shopsy">MPQC:Shopsy</option>
               <option value="Allen">Allen</option>
@@ -152,10 +160,14 @@ export default function SignUpPage() {
               value={shift}
               onChange={(e) => setShift(e.target.value)}
             >
-              <option value="" disabled>Select Shift</option>
+              <option value="" disabled>
+                Select Shift
+              </option>
               <option value="6AM - 3PM">6AM - 3PM</option>
               <option value="7AM - 4PM">7AM - 4PM</option>
-              <option value="9AM - 6PM (General Shift)">9AM - 6PM (General Shift)</option>
+              <option value="9AM - 6PM (General Shift)">
+                9AM - 6PM (General Shift)
+              </option>
               <option value="12PM - 9PM">12PM - 9PM</option>
               <option value="3PM - 12PM">3PM - 12PM</option>
               <option value="9PM - 6AM">9PM - 6AM</option>
@@ -174,6 +186,7 @@ export default function SignUpPage() {
           Sign Up
         </button>
       </div>
+      </form>
 
       <p className="text-gray-400 text-xs text-center">2025© BERG.CO.IN</p>
     </AuthLayout>

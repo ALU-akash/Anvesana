@@ -45,6 +45,7 @@ export default function LoginPage() {
           Join us now!{" "}
         </Link>{" "}
       </h3>{" "}
+      
       {/* Login Form */}
       <form onSubmit={handleLogin}>
         <div className="py-6 flex flex-col gap-4">
