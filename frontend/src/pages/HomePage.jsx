@@ -20,6 +20,7 @@ import {
 
 export default function HomePage() {
   const [process, setProcess] = useState("");
+  const [activity, setActivity] = useState("");
   const [todos, setTodos] = useState([]);
 
   // Load tasks from local storage on component mount
@@ -141,8 +142,8 @@ export default function HomePage() {
                   </label>
                   <select
                     className="block w-full p-2 border border-gray-200 text-gray-600 rounded-md"
-                    value={process}
-                    onChange={(e) => setProcess(e.target.value)}
+                    value={activity}
+                    onChange={(e) => setActivity(e.target.value)}
                   >
                     <option value="" disabled>
                       Select Status

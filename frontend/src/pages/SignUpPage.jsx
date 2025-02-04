@@ -19,7 +19,6 @@ export default function SignUpPage() {
     password: "",
   });
 
- 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
