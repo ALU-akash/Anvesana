@@ -19,62 +19,10 @@ export default function SignUpPage() {
     password: "",
   });
 
-  // const handleEmployeeIdChange = (e) => {
-  //   const empId = e.target.value;
-  //   setEmployeeId(empId);
-
-  //   if (empId.startsWith("D")) {
-  //     setCity("Dehradun");
-  //   } else if (empId.startsWith("J")) {
-  //     setCity("Jammu");
-  //   } else {
-  //     setCity("");
-  //   }
-  // };
-
+ 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
-
-  // const handleSignup = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!email.includes("berg.co.in")){
-  //     alert("Email id should end with berg.co.in")
-  //     return;
-  //   }
-
-  //   if ( !firstName || !lastName || !dob || !email || !password || !employeeId || !city || !process || !shift ) {
-  //     alert("Please fill all the details");
-  //     return;
-  //   }
-
-  //   try {
-  //     const userCredential = await createUserWithEmailAndPassword(
-  //       auth,
-  //       email,
-  //       password
-  //     );
-  //     const uid = userCredential.user.uid;
-
-  //     // Add a new document in collection "Users"
-  //     await setDoc(doc(db, "Users", uid), {
-  //       firstName: firstName,
-  //       lastName: lastName,
-  //       dob: dob,
-  //       email: email,
-  //       employeeId: employeeId,
-  //       city: city,
-  //       process: process,
-  //       shift: shift,
-  //     });
-  //     alert("User has been created");
-
-  //     navigate("/");
-  //   } catch (e) {
-  //     alert(e);
-  //   }
-  // };
 
   return (
     <AuthLayout>
