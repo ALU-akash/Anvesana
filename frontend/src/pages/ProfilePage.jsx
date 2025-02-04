@@ -205,7 +205,7 @@ export default function ProfilePage() {
             {[
               { label: "First Name", value: "Vansh" },
               { label: "Last Name", value: "Kumar" },
-              { label: "Date Of Birth", value: "26-09-2002" },
+              { label: "Date of Birth", value: "26-09-2002" },
               { label: "Email Address", value: "vansh.kumar@berg.co.in" },
               { label: "Phone Number", value: "7536001034" },
               { label: "City", value: "Dehradun" },
