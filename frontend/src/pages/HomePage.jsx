@@ -24,23 +24,31 @@ export default function HomePage() {
 
   // Load tasks from local storage on component mount
   useEffect(() => {
-    const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
-    setTodos(storedTodos);
+    const storedTodos = JSON.parse(localStorage.getItem("todos"));
+    if (storedTodos) {
+      setTodos(storedTodos);
+    }
   }, []);
-
+  
   // Save tasks to local storage whenever `todos` change
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
+    if (todos.length > 0) {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    }
   }, [todos]);
+  
 
   const addTodo = (event) => {
     event.preventDefault();
     const newTodo = event.target.elements.todoInput.value.trim();
     if (newTodo) {
-      setTodos([...todos, newTodo]);
+      const updatedTodos = [...todos, newTodo];
+      setTodos(updatedTodos);
+      localStorage.setItem("todos", JSON.stringify(updatedTodos)); 
       event.target.reset(); // Clear input
     }
   };
+  
 
   const removeTodo = (index) => {
     const updatedTodos = todos.filter((_, i) => i !== index);
@@ -104,7 +112,7 @@ export default function HomePage() {
                     Process
                   </label>
                   <select
-                    className="block w-full p-2 border border-gray-300 rounded-md"
+                    className="block w-full p-2 border border-gray-200 text-gray-600 rounded-md"
                     value={process}
                     onChange={(e) => setProcess(e.target.value)}
                   >
