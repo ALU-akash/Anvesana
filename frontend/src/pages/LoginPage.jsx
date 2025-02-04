@@ -6,9 +6,7 @@ import { useState } from "react";
 import { auth } from "../firebase/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-
 export default function LoginPage() {
-
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +38,13 @@ export default function LoginPage() {
     <AuthLayout>
       <img src={logo} className="w-32 py-4" alt="logo_full" draggable="false" />
       <h2 className="text-black font-bold text-4xl">Welcome Back</h2>
-
+      <h3 className="text-sm text-gray-600">
+        Not a member ?{" "}
+        <Link to="/sign-up" className="text-[#2BACDE] hover:text-black">
+          {" "}
+          Join us now!{" "}
+        </Link>{" "}
+      </h3>{" "}
       {/* Login Form */}
       <form onSubmit={handleLogin}>
         <div className="py-6 flex flex-col gap-4">
@@ -75,7 +79,6 @@ export default function LoginPage() {
           </button>
         </div>
       </form>
-
       <p className="text-gray-400 text-xs text-center">2025© BERG.CO.IN</p>
     </AuthLayout>
   );

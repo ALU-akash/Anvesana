@@ -164,7 +164,7 @@ export default function SignUpPage() {
         </div>
         <div className="flex justify-end text-sm">
           <Link
-            to="/reset-password"
+            to="/"
             className="text-[#2BACDE] hover:text-black transition-all duration-300"
           >
             Already have an account?
