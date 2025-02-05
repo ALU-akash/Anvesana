@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import {
-  FaBriefcase,
-  FaChartBar,
   FaChartGantt,
   FaChartSimple,
   FaClock,
@@ -11,7 +9,6 @@ import {
   FaListCheck,
   FaMessage,
   FaMugHot,
-  FaPenClip,
   FaPlay,
   FaPlus,
   FaStop,
@@ -52,7 +49,9 @@ export default function HomePage() {
   const removeTodo = (index) => {
     const updatedTodos = todos.filter((_, i) => i !== index);
     setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
+  
 
   return (
     <div className="h-screen grid grid-cols-5 bg-gray-50 p-2">
@@ -85,12 +84,12 @@ export default function HomePage() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-[#F0FCFD] text-[#2BACDE] p-4 flex flex-col gap-1 w-full h-full justify-center items-center mx-auto rounded-lg shadow-sm"
+              className="bg-[#F0FCFD] text-[#3B71B6] p-4 flex flex-col gap-1 w-full h-full justify-center items-center mx-auto rounded-lg shadow-sm"
             >
               {item.icon}
-              <span className="text-2xl font-semibold">{item.title}</span>
+              <span className="text-2xl font-semibold text-[#030101]">{item.title}</span>
               {item.subtitle && (
-                <span className="text-sm text-gray-600">{item.subtitle}</span>
+                <span className="text-sm">{item.subtitle}</span>
               )}
             </div>
           ))}
