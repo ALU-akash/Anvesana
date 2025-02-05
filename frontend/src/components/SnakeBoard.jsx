@@ -112,7 +112,7 @@ const SnakeGamePage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full bg-white text-black">
-      <div className="mb-4 px-8 w-full flex justify-between text-sm font-semibold">
+      <div className="mb-4 px-8 w-full flex justify-center gap-12 text-sm font-semibold">
         <div>Play Time: <span className="text-[#2BACDE]">{playTime}</span> Sec</div>
         <div>Score: <span className="text-[#2BACDE]">{score}</span></div>
         <div>Last Score: <span className="text-[#2BACDE]">{lastScore}</span></div>
