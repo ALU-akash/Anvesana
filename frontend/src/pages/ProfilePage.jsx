@@ -378,12 +378,13 @@ export default function ProfilePage() {
 
           <div className="w-full grid grid-cols-3 gap-6 p-4">
             {[
-              { label: "First Name", value: "Vansh" },
-              { label: "Last Name", value: "Kumar" },
-              { label: "Date of Birth", value: "26-09-2002" },
-              { label: "Email Address", value: "vansh.kumar@berg.co.in" },
-              { label: "Phone Number", value: "7536001034" },
-              { label: "City", value: "Dehradun" },
+              
+              { label: "First Name", value: user ? user.firstName : "Guest" },
+              { label: "Last Name", value: user ? user.lastName : "Guest"},
+              { label: "Date of Birth", value: user ? user.dob : "22/06/2001" },
+              { label: "Email Address", value: user ? user.email : "abc@berg.co.in" },
+              { label: "Phone Number", value: user ? user.phone : "9999999999" },
+              { label: "City", value: user ? user.city : "Dehradun"},
             ].map((item, index) => (
               <div key={index} className="flex flex-col gap-1">
                 <span className="text-gray-500 text-sm">{item.label}</span>
@@ -404,9 +405,9 @@ export default function ProfilePage() {
 
           <div className="w-full grid grid-cols-3 gap-6 p-4">
             {[
-              { label: "Employee ID", value: "D132414" },
-              { label: "Process Name", value: "MPQC-FK" },
-              { label: "Shift Timing", value: "9 AM to 6 PM" },
+              { label: "Employee ID", value: user ? user.employeeId : "D11111"},
+              { label: "Process Name", value: user ? user.process : "CEO"},
+              { label: "Shift Timing", value: user ? user.shift : "9AM - 6PM" },
             ].map((item, index) => (
               <div key={index} className="flex flex-col gap-1">
                 <span className="text-gray-500 text-sm">{item.label}</span>
