@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import profileIcon from "../assets/img/user/profile.png";
 import FormInput from "../components/FormInput";
+import { useUser } from "../firebase/userContext";
 import {
   FaUser,
   FaEdit,
@@ -48,6 +49,9 @@ export default function ProfilePage() {
       setFileName(file.name);
     }
   };
+
+  const { user, loading } = useUser();
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div className="h-screen grid grid-cols-5 bg-gray-50 p-2">
@@ -100,12 +104,12 @@ export default function ProfilePage() {
           </div>
           <div className="flex flex-col">
             <h2 className="text-2xl font-semibold text-[#2BACDE]">
-              Vansh Kumar
+            {user ? user.firstName + " " + user.lastName : "Guest"}
             </h2>
             <span className="text-gray-500 text-sm">
-              vansh.kumar@berg.co.in
+            {user ? user.email : "abc@berg.co.in"}
             </span>
-            <span className="text-gray-500 text-sm">MPQC-FK</span>
+            <span className="text-gray-500 text-sm">{user ? user.process : "CEO"}</span>
           </div>
         </div>
 

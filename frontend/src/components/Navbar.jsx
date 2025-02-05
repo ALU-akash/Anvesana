@@ -6,9 +6,6 @@ import { FaCalendar, FaClock } from "react-icons/fa";
 import { useUser } from "../firebase/userContext";
 
 export default function Navbar() {
-
-  
-
   const [currentDate, setCurrentDate] = useState("");
   const [greeting, setGreeting] = useState("");
   const [time, setTime] = useState("");
@@ -67,7 +64,11 @@ export default function Navbar() {
     <nav className="w-full flex items-center justify-between p-2 border-b border-gray-100">
       <div className="text-xl">
         <span className="text-[#2BACDE] font-light">
-          {greeting},<span className="text-gray-800 font-medium"> {user ? user.firstName : "Guest"}</span>
+          {greeting},
+          <span className="text-gray-800 font-medium">
+            {" "}
+            {user ? user.firstName : "Guest"}
+          </span>
         </span>
       </div>
       <div className="flex items-center text-gray-600 text-sm gap-1">
@@ -89,7 +90,7 @@ export default function Navbar() {
             draggable="false"
           />
           <span className="text-sm text-gray-600 font-medium hover:text-[#2BACDE]">
-          {user ? user.firstName : "Guest"}
+            {user ? user.firstName : "Guest"}
           </span>
           <box-icon name="chevron-down"></box-icon>
         </button>
