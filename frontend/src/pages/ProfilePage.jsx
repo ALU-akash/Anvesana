@@ -59,7 +59,7 @@ export default function ProfilePage() {
       <Sidebar />
 
       {/* Main Content */}
-      <main className="col-span-4 flex flex-col gap-4 h-full py-2 px-4">
+      <main className="col-span-4 flex flex-col gap-4 h-full py-2 px-4 overflow-y-scroll">
         <Navbar />
 
         {/* Breadcrumb */}
