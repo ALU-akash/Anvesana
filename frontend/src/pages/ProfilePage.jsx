@@ -62,28 +62,6 @@ export default function ProfilePage() {
       <main className="col-span-4 flex flex-col gap-4 h-full py-2 px-4 overflow-y-scroll">
         <Navbar />
 
-        {/* Breadcrumb */}
-        <nav className="flex px-5 py-3 text-gray-700 border border-gray-100 shadow-sm rounded-lg bg-white">
-          <ol className="inline-flex items-center space-x-1 md:space-x-2">
-            <li className="inline-flex items-center">
-              <Link
-                to="/home"
-                className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-[#2BACDE]"
-              >
-                Home
-              </Link>
-            </li>
-            <FaAngleRight className="text-gray-500 " />
-            <li>
-              <div className="flex items-center">
-                <span className="text-sm font-medium text-gray-500">
-                  My Profile
-                </span>
-              </div>
-            </li>
-          </ol>
-        </nav>
-
         {/* Profile Section */}
         <div className="bg-white border border-gray-100 rounded-lg shadow-sm py-4 px-8 flex items-center gap-4">
           <div className="flex flex-col items-center">
