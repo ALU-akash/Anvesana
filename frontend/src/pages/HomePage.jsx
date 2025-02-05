@@ -30,14 +30,13 @@ export default function HomePage() {
       setTodos(storedTodos);
     }
   }, []);
-  
+
   // Save tasks to local storage whenever `todos` change
   useEffect(() => {
     if (todos.length > 0) {
       localStorage.setItem("todos", JSON.stringify(todos));
     }
   }, [todos]);
-  
 
   const addTodo = (event) => {
     event.preventDefault();
@@ -45,11 +44,10 @@ export default function HomePage() {
     if (newTodo) {
       const updatedTodos = [...todos, newTodo];
       setTodos(updatedTodos);
-      localStorage.setItem("todos", JSON.stringify(updatedTodos)); 
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
       event.target.reset(); // Clear input
     }
   };
-  
 
   const removeTodo = (index) => {
     const updatedTodos = todos.filter((_, i) => i !== index);

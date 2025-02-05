@@ -3,8 +3,12 @@ import { useState, useEffect } from "react";
 import profileIcon from "../assets/img/user/profile.png";
 import "boxicons";
 import { FaCalendar, FaClock } from "react-icons/fa";
+import { useUser } from "../firebase/userContext";
 
 export default function Navbar() {
+
+  
+
   const [currentDate, setCurrentDate] = useState("");
   const [greeting, setGreeting] = useState("");
   const [time, setTime] = useState("");
@@ -56,11 +60,14 @@ export default function Navbar() {
   // Toggle dropdown on button click
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
+  const { user, loading } = useUser();
+  if (loading) return <p>Loading...</p>;
+
   return (
     <nav className="w-full flex items-center justify-between p-2 border-b border-gray-100">
       <div className="text-xl">
         <span className="text-[#2BACDE] font-light">
-          {greeting},<span className="text-gray-800 font-medium"> Vansh</span>
+          {greeting},<span className="text-gray-800 font-medium"> {user ? user.firstName : "Guest"}</span>
         </span>
       </div>
       <div className="flex items-center text-gray-600 text-sm gap-1">
@@ -82,7 +89,7 @@ export default function Navbar() {
             draggable="false"
           />
           <span className="text-sm text-gray-600 font-medium hover:text-[#2BACDE]">
-            Vansh Kumar
+          {user ? user.firstName : "Guest"}
           </span>
           <box-icon name="chevron-down"></box-icon>
         </button>

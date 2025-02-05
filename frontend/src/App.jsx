@@ -4,10 +4,11 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import SignUpPage from "./pages/SignUpPage";
-
+import { UserProvider } from "./firebase/userContext";
 
 function App() {
   return (
+    <UserProvider>
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
@@ -17,6 +18,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
+    </UserProvider>
   );
 }
 
