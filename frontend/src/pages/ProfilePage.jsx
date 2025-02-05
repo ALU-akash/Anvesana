@@ -24,7 +24,7 @@ export default function ProfilePage() {
   const [city, setCity] = useState("");
   const [process, setProcess] = useState("");
   const [shift, setShift] = useState("");
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isImageModalOpen, setIsImgModalOpen] = useState(false);
   const [fileName, setFileName] = useState("");
