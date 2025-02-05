@@ -16,6 +16,9 @@ import {
 } from "react-icons/fa6";
 
 export default function HomePage() {
+  const [timer, setTimer] = useState(0); 
+  const [isRunning, setIsRunning] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
   const [process, setProcess] = useState("");
   const [activity, setActivity] = useState("");
   const [todos, setTodos] = useState([]);
@@ -51,6 +54,38 @@ export default function HomePage() {
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
+
+  const formatTime = (seconds) => {
+    const hrs = Math.floor(seconds / 3600).toString().padStart(2, "0");
+    const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
+    const secs = (seconds % 60).toString().padStart(2, "0");
+    return `${hrs}:${mins}:${secs}`;
+  };
+
+  // Start Timer
+  const handleStart = () => {
+    if (!isRunning) {
+      const id = setInterval(() => {
+        setTimer((prev) => prev + 1);
+      }, 1000);
+      setIntervalId(id);
+      setIsRunning(true);
+    }
+  };
+
+  // Stop Timer
+  const handleStop = () => {
+    if (isRunning) {
+      clearInterval(intervalId);
+      setIsRunning(false);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [intervalId]);
   
 
   return (
@@ -65,7 +100,7 @@ export default function HomePage() {
         {/* Statistics Cards */}
         <div className="grid grid-cols-4 items-center justify-center gap-4">
           {[
-            { icon: <FaClock size={32} />, title: "00:00:00" },
+            { icon: <FaClock size={32} />, title: formatTime(timer) },
             {
               icon: <FaGear size={32} />,
               title: "7:35:47",
@@ -154,16 +189,22 @@ export default function HomePage() {
                   </select>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
+
+                  {/* Start button */}
                   <button
                     className="p-2 flex justify-center items-center gap-1 bg-gradient-to-br hover:bg-gradient-to-tr from-green-300 to-green-500 transition-all duration-150 rounded-md text-white font-semibold cursor-pointer"
                     type="button"
+                    onClick={handleStart}
                   >
                     <FaPlay />
                     Start
                   </button>
+
+                  {/* End button */}
                   <button
                     className="p-2 flex justify-center items-center gap-1 bg-gradient-to-br hover:bg-gradient-to-tr from-red-300 to-red-500 transition-all duration-150 rounded-md text-white font-semibold cursor-pointer"
                     type="button"
+                    onClick={handleStop}
                   >
                     <FaStop />
                     End
