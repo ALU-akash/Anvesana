@@ -15,13 +15,20 @@ import {
   FaTrash,
 } from "react-icons/fa6";
 import { useUser } from "../firebase/userContext";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 
 export default function HomePage() {
   const { user } = useUser();
   const UID = user?.uid;
-  
+
   const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
@@ -145,8 +152,6 @@ export default function HomePage() {
     setIsEndDisabled(true);
     setIsDisabled(false);
 
-    const timeDiff = Math.floor((Date.now() - timer) / 1000);
-
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -162,6 +167,20 @@ export default function HomePage() {
       hour12: false,
     });
 
+    const startTimeStr = localStorage.getItem("startTimeTwo");
+    const endTimeStr = formattedEndTime;
+
+    const startSeconds = timeToSeconds(startTimeStr);
+    const endSeconds = timeToSeconds(endTimeStr);
+
+    let durationSeconds = endSeconds - startSeconds;
+
+    if (durationSeconds < 0) {
+      durationSeconds += 24 * 3600;
+    }
+
+    const duration = formatTime(durationSeconds);
+    console.log(duration);
     try {
       const activityRef = collection(db, "EmployeeActivity", UID, "activity");
       await addDoc(activityRef, {
@@ -171,9 +190,43 @@ export default function HomePage() {
         uid: user?.uid,
         startTime: localStorage.getItem("startTimeTwo"),
         endTime: formattedEndTime,
+        duration: duration,
       });
 
       setTimer(0); // Reset Timer after saving
+
+      const dailyRef = doc(
+        db,
+        "EmployeeActivity",
+        UID,
+        "dailyData",
+        formattedDate
+      );
+      const dailyDoc = await getDoc(dailyRef);
+
+      if (dailyDoc.exists()) {
+        const data = dailyDoc.data();
+      
+        // Convert duration to seconds before updating
+        const durationSeconds = timeToSeconds(duration);
+      
+        if (activity === "Production") {
+          await updateDoc(dailyRef, {
+            production: (data.production ?? 0) + durationSeconds, // Proper update
+          });
+        } else {
+          await updateDoc(dailyRef, {
+            break: (data.break ?? 0) + durationSeconds, // Proper update
+          });
+        }
+      } else {
+        await setDoc(dailyRef, {
+          date: formattedDate,
+          production: activity === "Production" ? timeToSeconds(duration) : 0,
+          break: activity !== "Production" ? timeToSeconds(duration) : 0,
+        });
+      }
+      
     } catch (e) {
       console.error("Error writing document: ", e);
     }
@@ -186,6 +239,7 @@ export default function HomePage() {
     localStorage.removeItem("startTimestamp");
     localStorage.removeItem("activity");
     localStorage.setItem("isRunning", "false");
+    localStorage.removeItem("startTimeTwo");
   };
 
   // Format Time
@@ -199,6 +253,12 @@ export default function HomePage() {
     const secs = (seconds % 60).toString().padStart(2, "0");
     return `${hrs}:${mins}:${secs}`;
   };
+
+  // Convert HH:MM:SS to seconds
+  function timeToSeconds(timeStr) {
+    const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+  }
 
   return (
     <div className="h-screen grid grid-cols-5 bg-gray-50 p-2">
@@ -264,9 +324,7 @@ export default function HomePage() {
                     onChange={(e) => setProcess(e.target.value)}
                     disabled={isDisabled}
                   >
-                    <option value="" >
-                      Select Process
-                    </option>
+                    <option value="">Select Process</option>
                     <option value="MPQC:FK">MPQC:FK</option>
                     <option value="MPQC:Shopsy">MPQC:Shopsy</option>
                     <option value="Allen">Allen</option>
