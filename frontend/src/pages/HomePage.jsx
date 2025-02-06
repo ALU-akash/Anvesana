@@ -29,6 +29,8 @@ export default function HomePage() {
   const { user } = useUser();
   const UID = user?.uid;
 
+  const [production, setProduction] = useState(0);
+  const [breakTime, setBreakTime] = useState(0);
   const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
@@ -42,6 +44,34 @@ export default function HomePage() {
   const [isStartDisabled, setIsStartDisabled] = useState(false);
   const [isEndDisabled, setIsEndDisabled] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
+
+  useEffect(() => {
+    const fetchTodaysData = async () => {
+      try {
+        const formattedDate = new Date().toISOString().split("T")[0];
+        const dailyRef = doc(
+          db,
+          "EmployeeActivity",
+          UID,
+          "dailyData",
+          formattedDate
+        );
+        const dailyDoc = await getDoc(dailyRef);
+
+        if (dailyDoc.exists()) {
+          const data = dailyDoc.data();
+          setProduction(data.production || 0);
+          setBreakTime(data.break || 0);
+        } else {
+          console.log("No data found for today.");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchTodaysData();
+  }, [UID]);
 
   useEffect(() => {
     localStorage.setItem("process", process);
@@ -206,10 +236,10 @@ export default function HomePage() {
 
       if (dailyDoc.exists()) {
         const data = dailyDoc.data();
-      
+
         // Convert duration to seconds before updating
         const durationSeconds = timeToSeconds(duration);
-      
+
         if (activity === "Production") {
           await updateDoc(dailyRef, {
             production: (data.production ?? 0) + durationSeconds, // Proper update
@@ -226,7 +256,6 @@ export default function HomePage() {
           break: activity !== "Production" ? timeToSeconds(duration) : 0,
         });
       }
-      
     } catch (e) {
       console.error("Error writing document: ", e);
     }
@@ -275,17 +304,17 @@ export default function HomePage() {
             { icon: <FaClock size={32} />, title: formatTime(timer) },
             {
               icon: <FaGear size={32} />,
-              title: "7:35:47",
+              title: formatTime(production),
               subtitle: "Production Time",
             },
             {
               icon: <FaMugHot size={32} />,
-              title: "2:35:47",
+              title: formatTime(breakTime),
               subtitle: "Break Time",
             },
             {
               icon: <FaMessage size={32} />,
-              title: "2:35:47",
+              title: "00:00:00",
               subtitle: "Feedback Time",
             },
           ].map((item, idx) => (

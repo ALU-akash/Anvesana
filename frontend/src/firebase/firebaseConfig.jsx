@@ -39,4 +39,6 @@ const fetchUserDetails = async (uid) => {
   }
 };
 
-export { auth, db, analytics, fetchUserDetails };
+
+
+export { auth, db, analytics, fetchUserDetails};
