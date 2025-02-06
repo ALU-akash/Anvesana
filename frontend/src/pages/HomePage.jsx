@@ -15,10 +15,13 @@ import {
   FaTrash,
 } from "react-icons/fa6";
 import { useUser } from "../firebase/userContext";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
 
 export default function HomePage() {
-  const { user, loading } = useUser();
-
+  const { user } = useUser();
+  const UID = user?.uid;
+  console.log(user?.process);
   const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
@@ -98,6 +101,7 @@ export default function HomePage() {
     setIsStartDisabled(true);
     setIsEndDisabled(false);
     setIsDisabled(true);
+
     if (isRunning) return;
 
     if (activity == "") {
@@ -109,6 +113,19 @@ export default function HomePage() {
     }
 
     const startTime = Date.now() - resumeTime * 1000;
+
+    const startTimeTwo = new Date();
+    let formattedStartTime = localStorage.getItem("startTimeTwo");
+
+    if (!formattedStartTime) {
+      const startTimeTwo = new Date();
+      formattedStartTime = startTimeTwo.toLocaleTimeString("en-GB", {
+        hour12: false,
+      });
+
+      localStorage.setItem("startTimeTwo", formattedStartTime); // Store it only if not set
+    }
+
     localStorage.setItem("startTimestamp", startTime.toString());
     localStorage.setItem("isRunning", "true");
     localStorage.setItem("activity", activity);
@@ -123,16 +140,51 @@ export default function HomePage() {
   };
 
   // Stop Timer
-  const stopTimer = () => {
+  const stopTimer = async () => {
     setIsStartDisabled(false);
     setIsEndDisabled(true);
     setIsDisabled(false);
+
+    const timeDiff = Math.floor((Date.now() - timer) / 1000);
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const formattedDate = year + "-" + month + "-" + day;
+
+    if (localStorage.getItem("process") == null) {
+      process = user?.process;
+    }
+
+    const endTime = new Date();
+    var formattedEndTime = endTime.toLocaleTimeString("en-GB", {
+      hour12: false,
+    });
+
+    try {
+      const activityRef = collection(db, "EmployeeActivity", UID, "activity");
+      await addDoc(activityRef, {
+        date: formattedDate,
+        process: process,
+        activity: activity,
+        uid: user?.uid,
+        startTime: localStorage.getItem("startTimeTwo"),
+        endTime: formattedEndTime,
+      });
+
+      setTimer(0); // Reset Timer after saving
+    } catch (e) {
+      console.error("Error writing document: ", e);
+    }
+
     if (intervalId) {
       clearInterval(intervalId);
       setIntervalId(null);
     }
     setIsRunning(false);
     localStorage.removeItem("startTimestamp");
+    localStorage.removeItem("activity");
     localStorage.setItem("isRunning", "false");
   };
 
