@@ -83,7 +83,8 @@ export default function HomePage() {
     const startTime = Date.now() - resumeTime * 1000;
     localStorage.setItem("startTimestamp", startTime.toString());
     localStorage.setItem("isRunning", "true"); 
-
+    localStorage.setItem("Activity",activity);
+    localStorage.setItem("Process",process);
     
     const id = setInterval(() => {
       setTimer((prev) => prev + 1); // Increment the timer by 1 second
