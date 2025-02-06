@@ -24,6 +24,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
+import {  onSnapshot } from "firebase/firestore";
 
 export default function HomePage() {
   const { user } = useUser();
@@ -46,32 +47,27 @@ export default function HomePage() {
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
-    const fetchTodaysData = async () => {
-      try {
-        const formattedDate = new Date().toISOString().split("T")[0];
-        const dailyRef = doc(
-          db,
-          "EmployeeActivity",
-          UID,
-          "dailyData",
-          formattedDate
-        );
-        const dailyDoc = await getDoc(dailyRef);
+    if (!UID) return; // Avoid running if UID is not available
 
-        if (dailyDoc.exists()) {
-          const data = dailyDoc.data();
-          setProduction(data.production || 0);
-          setBreakTime(data.break || 0);
-        } else {
-          console.log("No data found for today.");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+    const formattedDate = new Date().toISOString().split("T")[0]; // YYYY-MM-DD format
+    const dailyRef = doc(db, "EmployeeActivity", UID, "dailyData", formattedDate);
+
+    // ✅ Setting up real-time listener
+    const unsubscribe = onSnapshot(dailyRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setProduction(data.production || 0);
+        setBreakTime(data.break || 0);
+      } else {
+        console.log("No data found for today.");
+        setProduction(0);
+        setBreakTime(0);
       }
-    };
+    });
 
-    fetchTodaysData();
-  }, [UID]);
+    // Cleanup function to remove the listener when the component unmounts
+    return () => unsubscribe();
+  }, [UID]); // Runs when UID changes
 
   useEffect(() => {
     localStorage.setItem("process", process);
@@ -244,7 +240,7 @@ export default function HomePage() {
           await updateDoc(dailyRef, {
             production: (data.production ?? 0) + durationSeconds, // Proper update
           });
-        } else {
+        } else if(activity === "Break") {
           await updateDoc(dailyRef, {
             break: (data.break ?? 0) + durationSeconds, // Proper update
           });
