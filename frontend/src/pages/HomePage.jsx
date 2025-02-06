@@ -55,37 +55,62 @@ export default function HomePage() {
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
 
+  useEffect(() => {
+    console.log("Use Effect Called");
+    const savedStartTime = localStorage.getItem("startTimestamp");
+    const savedIsRunning = localStorage.getItem("isRunning") === "true";
+    
+    
+    if (savedStartTime && savedIsRunning) {
+      const elapsedTime = Math.floor((Date.now() - parseInt(savedStartTime, 10)) / 1000);
+      setTimer(elapsedTime); 
+      startTimer(elapsedTime); 
+    }
+
+    
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, []);
+
+
+  // Start Timer
+  const startTimer = (resumeTime = 0) => {
+    if (isRunning) return; 
+
+    const startTime = Date.now() - resumeTime * 1000;
+    localStorage.setItem("startTimestamp", startTime.toString());
+    localStorage.setItem("isRunning", "true"); 
+
+    
+    const id = setInterval(() => {
+      setTimer((prev) => prev + 1); // Increment the timer by 1 second
+    }, 1000);
+
+    setIntervalId(id); 
+    setIsRunning(true); 
+  };
+
+  // Stop Timer
+  const stopTimer = () => {
+    if (intervalId) {
+      clearInterval(intervalId); 
+      setIntervalId(null); 
+    }
+    setIsRunning(false); 
+    localStorage.removeItem("startTimestamp"); 
+    localStorage.setItem("isRunning", "false"); 
+  };
+
+  // Format Time
   const formatTime = (seconds) => {
     const hrs = Math.floor(seconds / 3600).toString().padStart(2, "0");
     const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
     const secs = (seconds % 60).toString().padStart(2, "0");
     return `${hrs}:${mins}:${secs}`;
   };
-
-  // Start Timer
-  const handleStart = () => {
-    if (!isRunning) {
-      const id = setInterval(() => {
-        setTimer((prev) => prev + 1);
-      }, 1000);
-      setIntervalId(id);
-      setIsRunning(true);
-    }
-  };
-
-  // Stop Timer
-  const handleStop = () => {
-    if (isRunning) {
-      clearInterval(intervalId);
-      setIsRunning(false);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [intervalId]);
   
 
   return (
@@ -194,7 +219,7 @@ export default function HomePage() {
                   <button
                     className="p-2 flex justify-center items-center gap-1 bg-gradient-to-br hover:bg-gradient-to-tr from-green-300 to-green-500 transition-all duration-150 rounded-md text-white font-semibold cursor-pointer"
                     type="button"
-                    onClick={handleStart}
+                    onClick={() => startTimer(timer)}
                   >
                     <FaPlay />
                     Start
@@ -204,7 +229,7 @@ export default function HomePage() {
                   <button
                     className="p-2 flex justify-center items-center gap-1 bg-gradient-to-br hover:bg-gradient-to-tr from-red-300 to-red-500 transition-all duration-150 rounded-md text-white font-semibold cursor-pointer"
                     type="button"
-                    onClick={handleStop}
+                    onClick={stopTimer}
                   >
                     <FaStop />
                     End
