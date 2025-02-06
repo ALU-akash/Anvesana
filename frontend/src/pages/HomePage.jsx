@@ -14,14 +14,27 @@ import {
   FaStop,
   FaTrash,
 } from "react-icons/fa6";
+import { use } from "react";
 
 export default function HomePage() {
-  const [timer, setTimer] = useState(0); 
+  const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
-  const [process, setProcess] = useState("");
-  const [activity, setActivity] = useState("");
+  const [process, setProcess] = useState(localStorage.getItem("process") || "");
+  const [activity, setActivity] = useState(localStorage.getItem("activity") || "");
   const [todos, setTodos] = useState([]);
+  const [isStartDisabled, setIsStartDisabled] = useState(false);
+  const [isEndDisabled, setIsEndDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  
+  useEffect(() => {
+    localStorage.setItem("process", process);
+    localStorage.setItem("ativity",activity);
+    localStorage.setItem("isStartDisabled", isStartDisabled);
+    localStorage.setItem("isEndDisabled", isEndDisabled);
+    localStorage.setItem("isDisabled", isDisabled);
+  }, [process, activity, isStartDisabled, isEndDisabled, isDisabled]);
 
   // Load tasks from local storage on component mount
   useEffect(() => {
@@ -59,14 +72,15 @@ export default function HomePage() {
     console.log("Use Effect Called");
     const savedStartTime = localStorage.getItem("startTimestamp");
     const savedIsRunning = localStorage.getItem("isRunning") === "true";
-    
+
     if (savedStartTime && savedIsRunning) {
-      const elapsedTime = Math.floor((Date.now() - parseInt(savedStartTime, 10)) / 1000);
-      setTimer(elapsedTime); 
-      startTimer(elapsedTime); 
+      const elapsedTime = Math.floor(
+        (Date.now() - parseInt(savedStartTime, 10)) / 1000
+      );
+      setTimer(elapsedTime);
+      startTimer(elapsedTime);
     }
 
-    
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
@@ -74,53 +88,60 @@ export default function HomePage() {
     };
   }, []);
 
-
   // Start Timer
   const startTimer = (resumeTime = 0) => {
-    if (isRunning) return; 
+    setIsStartDisabled(true);
+    setIsEndDisabled(false);
+    setIsDisabled(true);
+    if (isRunning) return;
 
     if (activity == "") {
       alert("Please select activity");
       return;
-    }
-    else if (process == "") {
+    } else if (process == "") {
       alert("Please select process");
       return;
     }
 
     const startTime = Date.now() - resumeTime * 1000;
     localStorage.setItem("startTimestamp", startTime.toString());
-    localStorage.setItem("isRunning", "true"); 
-    localStorage.setItem("Activity",activity);
-    localStorage.setItem("Process",process);
-    
+    localStorage.setItem("isRunning", "true");
+    localStorage.setItem("activity", activity);
+    localStorage.setItem("process", process);
+
     const id = setInterval(() => {
       setTimer((prev) => prev + 1); // Increment the timer by 1 second
     }, 1000);
 
-    setIntervalId(id); 
-    setIsRunning(true); 
+    setIntervalId(id);
+    setIsRunning(true);
   };
 
   // Stop Timer
   const stopTimer = () => {
+    setIsStartDisabled(false);
+    setIsEndDisabled(true);
+    setIsDisabled(false);
     if (intervalId) {
-      clearInterval(intervalId); 
-      setIntervalId(null); 
+      clearInterval(intervalId);
+      setIntervalId(null);
     }
-    setIsRunning(false); 
-    localStorage.removeItem("startTimestamp"); 
-    localStorage.setItem("isRunning", "false"); 
+    setIsRunning(false);
+    localStorage.removeItem("startTimestamp");
+    localStorage.setItem("isRunning", "false");
   };
 
   // Format Time
   const formatTime = (seconds) => {
-    const hrs = Math.floor(seconds / 3600).toString().padStart(2, "0");
-    const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
+    const hrs = Math.floor(seconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    const mins = Math.floor((seconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
     const secs = (seconds % 60).toString().padStart(2, "0");
     return `${hrs}:${mins}:${secs}`;
   };
-  
 
   return (
     <div className="h-screen grid grid-cols-5 bg-gray-50 p-2">
@@ -156,7 +177,9 @@ export default function HomePage() {
               className="bg-[#F0FCFD] text-[#3B71B6] p-4 flex flex-col gap-1 w-full h-full justify-center items-center mx-auto rounded-lg shadow-sm"
             >
               {item.icon}
-              <span className="text-2xl font-semibold text-[#030101]">{item.title}</span>
+              <span className="text-2xl font-semibold text-[#030101]">
+                {item.title}
+              </span>
               {item.subtitle && (
                 <span className="text-sm">{item.subtitle}</span>
               )}
@@ -182,6 +205,7 @@ export default function HomePage() {
                     className="block w-full p-2 border border-gray-200 text-gray-600 rounded-md"
                     value={process}
                     onChange={(e) => setProcess(e.target.value)}
+                    disabled={isDisabled}
                   >
                     <option value="" disabled>
                       Select Process
@@ -210,6 +234,7 @@ export default function HomePage() {
                     className="block w-full p-2 border border-gray-200 text-gray-600 rounded-md"
                     value={activity}
                     onChange={(e) => setActivity(e.target.value)}
+                    disabled={isDisabled}
                   >
                     <option value="" disabled>
                       Select Status
@@ -223,12 +248,12 @@ export default function HomePage() {
                   </select>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-
                   {/* Start button */}
                   <button
                     className="p-2 flex justify-center items-center gap-1 bg-gradient-to-br hover:bg-gradient-to-tr from-green-300 to-green-500 transition-all duration-150 rounded-md text-white font-semibold cursor-pointer"
                     type="button"
                     onClick={() => startTimer(timer)}
+                    disabled={isStartDisabled}
                   >
                     <FaPlay />
                     Start
@@ -239,6 +264,7 @@ export default function HomePage() {
                     className="p-2 flex justify-center items-center gap-1 bg-gradient-to-br hover:bg-gradient-to-tr from-red-300 to-red-500 transition-all duration-150 rounded-md text-white font-semibold cursor-pointer"
                     type="button"
                     onClick={stopTimer}
+                    disabled={isEndDisabled}
                   >
                     <FaStop />
                     End
