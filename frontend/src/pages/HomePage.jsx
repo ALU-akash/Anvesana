@@ -60,7 +60,6 @@ export default function HomePage() {
     const savedStartTime = localStorage.getItem("startTimestamp");
     const savedIsRunning = localStorage.getItem("isRunning") === "true";
     
-    
     if (savedStartTime && savedIsRunning) {
       const elapsedTime = Math.floor((Date.now() - parseInt(savedStartTime, 10)) / 1000);
       setTimer(elapsedTime); 
@@ -79,6 +78,15 @@ export default function HomePage() {
   // Start Timer
   const startTimer = (resumeTime = 0) => {
     if (isRunning) return; 
+
+    if (activity == "") {
+      alert("Please select activity");
+      return;
+    }
+    else if (process == "") {
+      alert("Please select process");
+      return;
+    }
 
     const startTime = Date.now() - resumeTime * 1000;
     localStorage.setItem("startTimestamp", startTime.toString());
