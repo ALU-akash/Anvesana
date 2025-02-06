@@ -14,23 +14,28 @@ import {
   FaStop,
   FaTrash,
 } from "react-icons/fa6";
-import { use } from "react";
+import { useUser } from "../firebase/userContext";
 
 export default function HomePage() {
+  const { user, loading } = useUser();
+
   const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
-  const [process, setProcess] = useState(localStorage.getItem("process") || "");
-  const [activity, setActivity] = useState(localStorage.getItem("activity") || "");
+  const [process, setProcess] = user
+    ? useState(user.process)
+    : useState(localStorage.getItem("process"));
+  const [activity, setActivity] = useState(
+    localStorage.getItem("activity") || ""
+  );
   const [todos, setTodos] = useState([]);
   const [isStartDisabled, setIsStartDisabled] = useState(false);
   const [isEndDisabled, setIsEndDisabled] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
 
-  
   useEffect(() => {
     localStorage.setItem("process", process);
-    localStorage.setItem("ativity",activity);
+    localStorage.setItem("activity", activity);
     localStorage.setItem("isStartDisabled", isStartDisabled);
     localStorage.setItem("isEndDisabled", isEndDisabled);
     localStorage.setItem("isDisabled", isDisabled);

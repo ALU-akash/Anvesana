@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import profileIcon from "../assets/img/user/profile.png";
