@@ -21,7 +21,7 @@ import { db } from "../firebase/firebaseConfig";
 export default function HomePage() {
   const { user } = useUser();
   const UID = user?.uid;
-  console.log(user?.process);
+  
   const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
@@ -264,7 +264,7 @@ export default function HomePage() {
                     onChange={(e) => setProcess(e.target.value)}
                     disabled={isDisabled}
                   >
-                    <option value="" disabled>
+                    <option value="" >
                       Select Process
                     </option>
                     <option value="MPQC:FK">MPQC:FK</option>
