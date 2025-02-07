@@ -4,6 +4,7 @@ import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
 import { useState } from "react";
 import handleSignup from "../firebase/signupHandler";
+import { Toaster } from "react-hot-toast";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export default function SignUpPage() {
 
   return (
     <AuthLayout>
+       <Toaster position="top-center" reverseOrder={false} />
       <div className="flex items-center justify-between">
         <h2 className="text-black font-bold text-2xl">Sign Up</h2>
         <img

@@ -1,6 +1,7 @@
 import { auth, db } from "../firebase/firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 const handleSignup = async (e, userData, navigate) => {
   e.preventDefault();
@@ -15,12 +16,11 @@ const handleSignup = async (e, userData, navigate) => {
     process,
     shift,
     password,
-    phoneNumber
+    phoneNumber,
   } = userData;
 
-
   if (!email.includes("berg.co.in")) {
-    alert("Email id should end with berg.co.in");
+    toast.error("Use an @berg.co.in email address.");
     return;
   }
 
@@ -33,9 +33,9 @@ const handleSignup = async (e, userData, navigate) => {
     !employeeId ||
     !city ||
     !process ||
-    !shift 
+    !shift
   ) {
-    alert("Please fill all the details");
+    toast.error("All fields are required.");
     return;
   }
 
@@ -59,9 +59,11 @@ const handleSignup = async (e, userData, navigate) => {
       shift: shift,
       phone: phoneNumber,
     });
-    alert("User has been created");
+    toast.success("User created successfully");
 
-    navigate("/");
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
   } catch (e) {
     alert(e);
   }
