@@ -14,7 +14,16 @@ const GamePage = () => {
       {/* Main Content */}
       <main className="col-span-4 flex flex-col gap-4 h-full py-2 px-4 overflow-y-scroll">
         <Navbar />
-        <div className="grid grid-cols-2 gap-4">
+
+        <div className="bg_card rounded-lg shadow-sm p-4 flex flex-col gap-4">
+            <h5 className="flex items-center gap-2 font-medium text-gray-600">
+              <FaGamepad className="text-[#2BACDE]" />
+              Snake Game
+            </h5>
+            <SnakeBoard />
+          </div>
+          
+        {/* <div className="grid grid-cols-2 gap-4">
           <div className="bg_card rounded-lg shadow-sm p-4 flex flex-col gap-4">
             <h5 className="flex items-center gap-2 font-medium text-gray-600">
               <FaGamepad className="text-[#2BACDE]" />
@@ -29,7 +38,7 @@ const GamePage = () => {
             </h5>
             <DinoGame />
           </div>
-        </div>
+        </div> */}
       </main>
     </div>
   );
