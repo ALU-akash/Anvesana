@@ -39,3 +39,16 @@ body {
 .game-over {
     animation: gameOverAnimation 1s infinite;
 }
+
+.bg_icons {
+    background: url("./assets/img/background/bg_icons.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.bg_card {
+    background: url("./assets/img/background/bg-card.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}

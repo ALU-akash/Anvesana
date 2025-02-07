@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import "../index.css";
+
 import {
   FaChartGantt,
   FaChartSimple,
@@ -24,7 +26,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
-import {  onSnapshot } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
 
 export default function HomePage() {
   const { user } = useUser();
@@ -50,7 +52,13 @@ export default function HomePage() {
     if (!UID) return; // Avoid running if UID is not available
 
     const formattedDate = new Date().toISOString().split("T")[0]; // YYYY-MM-DD format
-    const dailyRef = doc(db, "EmployeeActivity", UID, "dailyData", formattedDate);
+    const dailyRef = doc(
+      db,
+      "EmployeeActivity",
+      UID,
+      "dailyData",
+      formattedDate
+    );
 
     // ✅ Setting up real-time listener
     const unsubscribe = onSnapshot(dailyRef, (docSnap) => {
@@ -240,7 +248,7 @@ export default function HomePage() {
           await updateDoc(dailyRef, {
             production: (data.production ?? 0) + durationSeconds, // Proper update
           });
-        } else if(activity === "Break") {
+        } else if (activity === "Break") {
           await updateDoc(dailyRef, {
             break: (data.break ?? 0) + durationSeconds, // Proper update
           });
@@ -297,7 +305,11 @@ export default function HomePage() {
         {/* Statistics Cards */}
         <div className="grid grid-cols-4 items-center justify-center gap-4">
           {[
-            { icon: <FaClock size={32} />, title: formatTime(timer) },
+            {
+              icon: <FaClock size={32} />,
+              title: formatTime(timer),
+              subtitle: "Total Time",
+            },
             {
               icon: <FaGear size={32} />,
               title: formatTime(production),
@@ -316,14 +328,14 @@ export default function HomePage() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-[#F0FCFD] text-[#3B71B6] p-4 flex flex-col gap-1 w-full h-full justify-center items-center mx-auto rounded-lg shadow-sm"
+              className="bg_icons text-white p-4 flex flex-col gap-1 w-full h-full justify-center items-center mx-auto rounded-lg shadow-lg hover:shadow-xs transition-all duration-150"
             >
               {item.icon}
-              <span className="text-2xl font-semibold text-[#030101]">
+              <span className="text-2xl font-semibold text-[#2f2f2f]">
                 {item.title}
               </span>
               {item.subtitle && (
-                <span className="text-sm">{item.subtitle}</span>
+                <span className="text-sm font-semibold">{item.subtitle}</span>
               )}
             </div>
           ))}
@@ -333,7 +345,7 @@ export default function HomePage() {
         <div className="grid grid-cols-2 gap-4 h-full">
           <div className="flex flex-col gap-4">
             {/* Activity Tracker */}
-            <div className="bg-white border border-gray-100 rounded-lg shadow-sm p-4 flex flex-col gap-4">
+            <div className="bg-white bg_card border border-gray-100 rounded-lg shadow-sm p-4 flex flex-col gap-4">
               <h5 className="flex items-center gap-2 font-medium text-gray-600">
                 <FaChartGantt className="text-[#2BACDE]" />
                 Activity Tracker
@@ -430,7 +442,7 @@ export default function HomePage() {
                 />
                 <button
                   type="submit"
-                  className="px-3 py-2 bg-[#2BACDE]  cursor-pointer text-white rounded-md hover:bg-[#3B71B6] transition"
+                  className="px-3 py-2 bg-[#2EC4FF]  cursor-pointer text-white rounded-md hover:bg-[#3B71B6] transition"
                 >
                   <FaPlus />
                 </button>
