@@ -50,6 +50,5 @@ body {
 .bg_card {
     background: url("./assets/img/background/bg-card.jpg");
     background-repeat: no-repeat;
-    background-position: right;
     background-size: cover;
 }
