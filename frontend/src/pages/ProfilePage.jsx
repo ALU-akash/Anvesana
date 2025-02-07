@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import profileIcon from "../assets/img/user/profile.png";
 import FormInput from "../components/FormInput";
 import { useUser } from "../firebase/userContext";
+import "../index.css";
 import {
   FaUser,
   FaEdit,
@@ -62,11 +63,11 @@ export default function ProfilePage() {
         <Navbar />
 
         {/* Profile Section */}
-        <div className="bg-white border border-gray-100 rounded-lg shadow-sm py-4 px-8 flex items-center gap-4">
+        <div className="bg_card border border-gray-100 rounded-lg shadow-sm py-4 px-8 flex items-center gap-4">
           <div className="flex flex-col items-center">
             <img
               src={profileIcon}
-              className="h-24 w-24 rounded-full shadow-sm"
+              className="h-24 w-24 rounded-full shadow-sm border-2 border-[#2EC4FF]"
               alt="User Icon"
               draggable="false"
             />
@@ -74,13 +75,13 @@ export default function ProfilePage() {
             <button
               onClick={handleImageEditClick}
               className="-mt-3
-              cursor-pointer flex items-center gap-1 bg-[#2BACDE] px-2 py-1 rounded-sm text-sm text-white hover:bg-[#3B71B6] transition-all duration-300"
+              cursor-pointer flex items-center gap-1 bg-[#2EC4FF] px-2 py-1 rounded-sm text-sm text-white hover:bg-[#3B71B6] transition-all duration-300"
             >
               <FaCamera className="text-white" />
             </button>
           </div>
           <div className="flex flex-col">
-            <h2 className="text-2xl font-semibold text-[#2BACDE]">
+            <h2 className="text-2xl font-semibold text-[#2EC4FF]">
             {user ? user.firstName + " " + user.lastName : "Guest"}
             </h2>
             <span className="text-gray-500 text-sm">
@@ -98,7 +99,7 @@ export default function ProfilePage() {
             </span>
             <button
               onClick={handleEditClick}
-              className="cursor-pointer flex items-center gap-1 bg-[#2BACDE] px-2 py-1 rounded-sm text-sm text-white hover:bg-[#3B71B6] transition-all duration-300"
+              className="cursor-pointer flex items-center gap-1 bg-[#2EC4FF] px-2 py-1 rounded-sm text-sm text-white hover:bg-[#3B71B6] transition-all duration-300"
             >
               Edit <FaEdit className="text-white" />
             </button>
