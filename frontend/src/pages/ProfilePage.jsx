@@ -63,7 +63,7 @@ export default function ProfilePage() {
         <Navbar />
 
         {/* Profile Section */}
-        <div className="bg_card border border-gray-100 rounded-lg shadow-sm py-4 px-8 flex items-center gap-4">
+        <div className="bg_card rounded-lg shadow-sm py-4 px-8 flex items-center gap-4">
           <div className="flex flex-col items-center">
             <img
               src={profileIcon}

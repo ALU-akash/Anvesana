@@ -14,12 +14,14 @@ const GamePage = () => {
       <main className="col-span-4 flex flex-col gap-4 h-full py-2 px-4 overflow-y-scroll">
         <Navbar />
 
-          <div className="bg-white border border-gray-100 rounded-lg shadow-sm p-4 flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg_card rounded-lg shadow-sm p-4 flex flex-col gap-4">
             <h5 className="flex items-center gap-2 font-medium text-gray-600">
               <FaGamepad className="text-[#2BACDE]" />
               Snake Game
-              </h5>
+            </h5>
             <SnakeBoard />
+          </div>
         </div>
       </main>
     </div>

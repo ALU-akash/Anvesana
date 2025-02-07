@@ -111,14 +111,14 @@ const SnakeGamePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-white text-black">
+    <div className="flex flex-col items-center justify-center h-full text-black">
       <div className="mb-4 px-8 w-full flex justify-center gap-12 text-sm font-semibold">
         <div>Play Time: <span className="text-[#2BACDE]">{playTime}</span> Sec</div>
         <div>Score: <span className="text-[#2BACDE]">{score}</span></div>
         <div>Last Score: <span className="text-[#2BACDE]">{lastScore}</span></div>
       </div>
       <div
-        className="grid gap-1 p-2 border border-gray-300"
+        className="grid gap-1 p-4 border border-gray-100 bg-white rounded-lg"
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${GRID_SIZE}, 20px)`,
