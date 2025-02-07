@@ -3,6 +3,7 @@ import SnakeBoard from "../components/SnakeBoard";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { FaDragon, FaGamepad } from "react-icons/fa";
+import DinoGame from "../components/DinoGame"; 
 
 const GamePage = () => {
   return (
@@ -26,7 +27,7 @@ const GamePage = () => {
               <FaDragon className="text-[#2BACDE]" />
               Dino Game
             </h5>
-            {/* <SnakeBoard /> */}
+            <DinoGame />
           </div>
         </div>
       </main>
