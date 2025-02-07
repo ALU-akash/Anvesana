@@ -4,9 +4,9 @@ import FormInput from "../components/FormInput";
 import logo from "../assets/img/logo/logo_full.png";
 import { useState } from "react";
 import handleLogin from "../firebase/loginHandler";
+import { Toaster } from "react-hot-toast";
 
 export default function LoginPage() {
-  
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: "",
@@ -19,6 +19,7 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
+      <Toaster position="top-center" reverseOrder={false} />
       <img src={logo} className="w-32 py-4" alt="logo_full" draggable="false" />
       <h2 className="text-black font-bold text-4xl">Welcome Back</h2>
       <h3 className="text-sm text-gray-600">
