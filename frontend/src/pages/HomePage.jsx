@@ -174,6 +174,7 @@ export default function HomePage() {
 
   // Stop Timer
   const stopTimer = async () => {
+    setTimer(0); // Reset Timer after saving
     setIsStartDisabled(false);
     setIsEndDisabled(true);
     setIsDisabled(false);
@@ -206,6 +207,7 @@ export default function HomePage() {
     }
 
     const duration = formatTime(durationSeconds);
+   
     console.log(duration);
     try {
       const activityRef = collection(db, "EmployeeActivity", UID, "activity");
@@ -219,12 +221,13 @@ export default function HomePage() {
         duration: duration,
       });
 
-      setTimer(0); // Reset Timer after saving
+     
 
       const dailyRef = doc(
         db,
         "EmployeeActivity",
         UID,
+        
         "dailyData",
         formattedDate
       );
